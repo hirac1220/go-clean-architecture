@@ -1,0 +1,155 @@
+openapi: 3.0.0
+info:
+  title: todos
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /todos:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Todoリスト取得
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+              examples:
+                example-1:
+                  value:
+                    - id: 1
+                      deadline: '2020-09-01T00:00:00Z'
+                      todo: test
+                    - id: 2
+                      deadline: '2020-09-01T00:00:00Z'
+                      todo: test2
+        '404':
+          description: Not Found
+      operationId: get-todos
+    post:
+      summary: ''
+      operationId: post-todos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+              examples:
+                example-1:
+                  value:
+                    id: 3
+                    deadline: '2020-09-01T00:00:00Z'
+                    todo: test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo'
+            examples:
+              example-1:
+                value:
+                  id: 0
+                  deadline: '2020-09-01T00:00:00Z'
+                  todo: test
+      tags:
+        - Todo作成
+  '/todos/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Todo取得/更新/削除
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+              examples:
+                example-1:
+                  value:
+                    id: 1
+                    deadline: '2020-09-01T00:00:00Z'
+                    todo: test
+        '404':
+          description: Not Found
+      operationId: get-todos-id
+    put:
+      summary: ''
+      operationId: put-todos-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Affected'
+              examples:
+                example-1:
+                  value:
+                    affected: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo'
+            examples:
+              example-1:
+                value:
+                  id: 0
+                  deadline: '2020-09-01T00:00:00Z'
+                  todo: testtest
+        description: ''
+      tags:
+        - Todo取得/更新/削除
+    delete:
+      summary: ''
+      operationId: delete-todos-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Affected'
+              examples:
+                example-1:
+                  value:
+                    affected: 1
+      tags:
+        - Todo取得/更新/削除
+components:
+  schemas:
+    Todo:
+      title: Todo
+      type: object
+      properties:
+        id:
+          type: integer
+        deadline:
+          type: string
+        todo:
+          type: string
+    Affected:
+      title: Affected
+      type: object
+      properties:
+        affected:
+          type: integer
+tags:
+  - name: Todo取得/更新/削除
+  - name: Todoリスト取得
+  - name: Todo作成

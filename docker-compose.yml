@@ -1,0 +1,38 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: "./Dockerfile"
+    environment:
+      - PORT=8080
+      - DB_ENGINE=mysql
+      - DB_NAME=db
+      - DB_USER=root
+      - DB_PASSWORD=
+      - DB_HOSTNAME=db
+      - DB_PORT=3306
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    command: >
+      mysqld
+        --character-set-server=utf8
+        --collation-server=utf8_unicode_ci
+        --skip-character-set-client-handshake
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+      - sql-data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=db
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - TZ=Asia/Tokyo
+    ports:
+      - 3306:3306
+
+volumes:
+  sql-data:
