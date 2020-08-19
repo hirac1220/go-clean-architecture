@@ -1,3 +1,4 @@
+```uml
 @startuml
 ' Todoのリソース
 entity Todo {
@@ -8,3 +9,4 @@ entity Todo {
 }
 
 @enduml
+```
