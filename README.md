@@ -1,5 +1,11 @@
 # Todo API (Clean Architecuture)
 
+## Documents
+* [API](https://github.com/hirac1220/go-clean-architecture/blob/master/docs/todo-openapi.html)
+* [シーケンス図](https://github.com/hirac1220/go-clean-architecture/blob/master/docs/sequence.md)
+* [ER図](https://github.com/hirac1220/go-clean-architecture/blob/master/docs/er.md)
+
+
 ## Docker環境セットアップ
 
 ### サーバー起動
