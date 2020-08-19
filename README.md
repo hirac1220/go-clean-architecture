@@ -31,25 +31,25 @@ go test -v ./infrastructure/persistence/todo_test.go
 ### Todo
 * 作成
 ```shell script
-curl -X POST "http://localhost:8080/todos" -H "accept: application/json" --data-raw '{$jsonData}'
+curl -X POST "http://localhost:8080/todos/{$userId}" -H "accept: application/json" --data-raw '{$jsonData}'
 ```
 
 * 取得
 ```shell script
-curl -X GET "http://localhost:8080/todos/{$id}" -H "accept: application/json"
+curl -X GET "http://localhost:8080/todos/{$userId}/{$id}" -H "accept: application/json"
 ```
 
 * 更新
 ```shell script
-curl -X PUT "http://localhost:8080/todos/{$id}" -H "accept: application/json" --data-raw '{$jsonData}'
+curl -X PUT "http://localhost:8080/todos/{$userId}/{$id}" -H "accept: application/json" --data-raw '{$jsonData}'
 ```
 
 * 削除
 ```shell script
-curl -X DELETE "http://localhost:8080/todos/{$id}" -H "accept: application/json"
+curl -X DELETE "http://localhost:8080/todos/{$userId}/{$id}" -H "accept: application/json"
 ```
 
 * リスト取得
 ```shell script
-curl -X GET "http://localhost:8080/todos" -H "accept: application/json"
+curl -X GET "http://localhost:8080/todos/{$userId}" -H "accept: application/json"
 ```

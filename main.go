@@ -42,11 +42,11 @@ func main() {
 	r := mux.NewRouter()
 	r.Use(Middleware)
 
-	r.HandleFunc("/todos", th.PostTodo).Methods("POST")
-	r.HandleFunc("/todos/{id}", th.GetTodo).Methods("GET")
-	r.HandleFunc("/todos/{id}", th.PutTodo).Methods("PUT")
-	r.HandleFunc("/todos/{id}", th.DeleteTodo).Methods("DELETE")
-	r.HandleFunc("/todos", th.ListTodos).Methods("GET")
+	r.HandleFunc("/todos/{userId}", th.PostTodo).Methods("POST")
+	r.HandleFunc("/todos/{userId}/{id}", th.GetTodo).Methods("GET")
+	r.HandleFunc("/todos/{userId}/{id}", th.PutTodo).Methods("PUT")
+	r.HandleFunc("/todos/{userId}/{id}", th.DeleteTodo).Methods("DELETE")
+	r.HandleFunc("/todos/{userId}", th.ListTodos).Methods("GET")
 
 	// Set cors
 	c := cors.New(cors.Options{

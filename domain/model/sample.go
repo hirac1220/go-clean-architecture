@@ -6,9 +6,10 @@ import (
 	"time"
 )
 
-func MakeTodo(id int, dt time.Time) *Todo {
+func MakeTodo(uid, id int, dt time.Time) *Todo {
 	todo := &Todo{
 		Id:       id,
+		UserId:   uid,
 		Deadline: dt,
 		Todo:     "test4",
 	}
@@ -21,11 +22,13 @@ func ListTodos() []Todo {
 	[
 		{
 			"id": 1,
+			"user_id": 1,
 			"deadline": "2020-09-01T00:00:00Z",
-			"todo": "test"
+			"todo": "test1"
 		},
 		{
 			"id": 2,
+			"user_id": 1,
 			"deadline": "2020-09-01T00:00:00Z",
 			"todo": "test2"
 		}

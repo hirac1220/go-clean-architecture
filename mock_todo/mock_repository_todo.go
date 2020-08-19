@@ -48,78 +48,78 @@ func (mr *MockTodoRepositoryMockRecorder) Close() *gomock.Call {
 }
 
 // CreateTodo mocks base method
-func (m *MockTodoRepository) CreateTodo(arg0 context.Context, arg1 *model.Todo) (int64, error) {
+func (m *MockTodoRepository) CreateTodo(arg0 context.Context, arg1 int, arg2 *model.Todo) (int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTodo", arg0, arg1)
+	ret := m.ctrl.Call(m, "CreateTodo", arg0, arg1, arg2)
 	ret0, _ := ret[0].(int64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateTodo indicates an expected call of CreateTodo
-func (mr *MockTodoRepositoryMockRecorder) CreateTodo(arg0, arg1 interface{}) *gomock.Call {
+func (mr *MockTodoRepositoryMockRecorder) CreateTodo(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTodo", reflect.TypeOf((*MockTodoRepository)(nil).CreateTodo), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTodo", reflect.TypeOf((*MockTodoRepository)(nil).CreateTodo), arg0, arg1, arg2)
 }
 
 // GetTodoById mocks base method
-func (m *MockTodoRepository) GetTodoById(arg0 context.Context, arg1 int) (*model.Todo, error) {
+func (m *MockTodoRepository) GetTodoById(arg0 context.Context, arg1, arg2 int) (*model.Todo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTodoById", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetTodoById", arg0, arg1, arg2)
 	ret0, _ := ret[0].(*model.Todo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetTodoById indicates an expected call of GetTodoById
-func (mr *MockTodoRepositoryMockRecorder) GetTodoById(arg0, arg1 interface{}) *gomock.Call {
+func (mr *MockTodoRepositoryMockRecorder) GetTodoById(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTodoById", reflect.TypeOf((*MockTodoRepository)(nil).GetTodoById), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTodoById", reflect.TypeOf((*MockTodoRepository)(nil).GetTodoById), arg0, arg1, arg2)
 }
 
 // PutTodoById mocks base method
-func (m *MockTodoRepository) PutTodoById(arg0 context.Context, arg1 int, arg2 *model.Todo) (int64, error) {
+func (m *MockTodoRepository) PutTodoById(arg0 context.Context, arg1, arg2 int, arg3 *model.Todo) (int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutTodoById", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "PutTodoById", arg0, arg1, arg2, arg3)
 	ret0, _ := ret[0].(int64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PutTodoById indicates an expected call of PutTodoById
-func (mr *MockTodoRepositoryMockRecorder) PutTodoById(arg0, arg1, arg2 interface{}) *gomock.Call {
+func (mr *MockTodoRepositoryMockRecorder) PutTodoById(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutTodoById", reflect.TypeOf((*MockTodoRepository)(nil).PutTodoById), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutTodoById", reflect.TypeOf((*MockTodoRepository)(nil).PutTodoById), arg0, arg1, arg2, arg3)
 }
 
 // DeleteTodoById mocks base method
-func (m *MockTodoRepository) DeleteTodoById(arg0 context.Context, arg1 int) (int64, error) {
+func (m *MockTodoRepository) DeleteTodoById(arg0 context.Context, arg1, arg2 int) (int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteTodoById", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteTodoById", arg0, arg1, arg2)
 	ret0, _ := ret[0].(int64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DeleteTodoById indicates an expected call of DeleteTodoById
-func (mr *MockTodoRepositoryMockRecorder) DeleteTodoById(arg0, arg1 interface{}) *gomock.Call {
+func (mr *MockTodoRepositoryMockRecorder) DeleteTodoById(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTodoById", reflect.TypeOf((*MockTodoRepository)(nil).DeleteTodoById), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTodoById", reflect.TypeOf((*MockTodoRepository)(nil).DeleteTodoById), arg0, arg1, arg2)
 }
 
 // ListTodos mocks base method
-func (m *MockTodoRepository) ListTodos(arg0 context.Context) ([]model.Todo, error) {
+func (m *MockTodoRepository) ListTodos(arg0 context.Context, arg1 int) ([]model.Todo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListTodos", arg0)
+	ret := m.ctrl.Call(m, "ListTodos", arg0, arg1)
 	ret0, _ := ret[0].([]model.Todo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListTodos indicates an expected call of ListTodos
-func (mr *MockTodoRepositoryMockRecorder) ListTodos(arg0 interface{}) *gomock.Call {
+func (mr *MockTodoRepositoryMockRecorder) ListTodos(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTodos", reflect.TypeOf((*MockTodoRepository)(nil).ListTodos), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTodos", reflect.TypeOf((*MockTodoRepository)(nil).ListTodos), arg0, arg1)
 }
 
 // GetNow mocks base method

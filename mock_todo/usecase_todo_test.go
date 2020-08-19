@@ -23,10 +23,10 @@ func TestPostTodo(t *testing.T) {
 	ctx := context.Background()
 
 	mockSample := mock.NewMockTodoRepository(ctrl)
-	mockSample.EXPECT().CreateTodo(ctx, todo).Return(id, err)
+	mockSample.EXPECT().CreateTodo(ctx, 1, todo).Return(id, err)
 
 	uc := usecase.NewTodoUseCase(mockSample)
-	result, err := uc.PostTodo(ctx, todo)
+	result, err := uc.PostTodo(ctx, "1", todo)
 
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Actual PostTodo() is not same as expected")
@@ -40,13 +40,11 @@ func TestGetTodo(t *testing.T) {
 	var err error
 
 	ctx := context.Background()
-	id := "1"
-
 	mockSample := mock.NewMockTodoRepository(ctrl)
-	mockSample.EXPECT().GetTodoById(ctx, 1).Return(expected, err)
+	mockSample.EXPECT().GetTodoById(ctx, 1, 1).Return(expected, err)
 
 	uc := usecase.NewTodoUseCase(mockSample)
-	result, err := uc.GetTodo(ctx, id)
+	result, err := uc.GetTodo(ctx, "1", "1")
 
 	if err != nil {
 		t.Error("Actual GetTodo() is not same as expected")
@@ -68,10 +66,10 @@ func TestPutTodo(t *testing.T) {
 	ctx := context.Background()
 
 	mockSample := mock.NewMockTodoRepository(ctrl)
-	mockSample.EXPECT().PutTodoById(ctx, 1, todo).Return(id, err)
+	mockSample.EXPECT().PutTodoById(ctx, 1, 1, todo).Return(id, err)
 
 	uc := usecase.NewTodoUseCase(mockSample)
-	result, err := uc.PutTodo(ctx, "1", todo)
+	result, err := uc.PutTodo(ctx, "1", "1", todo)
 
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Actual PutTodo() is not same as expected")
@@ -88,10 +86,10 @@ func TestDeleteTodo(t *testing.T) {
 	ctx := context.Background()
 
 	mockSample := mock.NewMockTodoRepository(ctrl)
-	mockSample.EXPECT().DeleteTodoById(ctx, 1).Return(id, err)
+	mockSample.EXPECT().DeleteTodoById(ctx, 1, 1).Return(id, err)
 
 	uc := usecase.NewTodoUseCase(mockSample)
-	result, err := uc.DeleteTodo(ctx, "1")
+	result, err := uc.DeleteTodo(ctx, "1", "1")
 
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Actual DeleteTodo() is not same as expected")
@@ -107,10 +105,10 @@ func TestListTodos(t *testing.T) {
 	ctx := context.Background()
 
 	mockSample := mock.NewMockTodoRepository(ctrl)
-	mockSample.EXPECT().ListTodos(ctx).Return(expected, err)
+	mockSample.EXPECT().ListTodos(ctx, 1).Return(expected, err)
 
 	uc := usecase.NewTodoUseCase(mockSample)
-	result, err := uc.ListTodos(ctx)
+	result, err := uc.ListTodos(ctx, "1")
 
 	if err != nil {
 		t.Error("Actual ListTodos() is not same as expected")

@@ -30,6 +30,9 @@ func NewTodoHandler(tu usecase.TodoUsecase) TodoHandler {
 }
 
 func (th *todoHandler) PostTodo(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	log.Printf("user_id: %v\n", vars["userId"])
+
 	todo := &model.Todo{}
 	if err := json.NewDecoder(r.Body).Decode(&todo); err != nil {
 		log.Println(err)
@@ -38,7 +41,7 @@ func (th *todoHandler) PostTodo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	t, err := th.todoUseCase.PostTodo(ctx, todo)
+	t, err := th.todoUseCase.PostTodo(ctx, vars["userId"], todo)
 	if err != nil {
 		if errors.Is(err, usecase.ErrNoAffected) {
 			log.Println(err)
@@ -64,10 +67,10 @@ func (th *todoHandler) PostTodo(w http.ResponseWriter, r *http.Request) {
 
 func (th *todoHandler) GetTodo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	log.Printf("id: %v\n", vars["id"])
+	log.Printf("user_id: %v, id: %v\n", vars["userId"], vars["id"])
 
 	ctx := r.Context()
-	t, err := th.todoUseCase.GetTodo(ctx, vars["id"])
+	t, err := th.todoUseCase.GetTodo(ctx, vars["userId"], vars["id"])
 	if err != nil {
 		if errors.Is(err, usecase.ErrNotFound) {
 			log.Println(err)
@@ -92,7 +95,7 @@ func (th *todoHandler) GetTodo(w http.ResponseWriter, r *http.Request) {
 
 func (th *todoHandler) PutTodo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	log.Printf("id: %v\n", vars["id"])
+	log.Printf("user_id: %v, id: %v\n", vars["userId"], vars["id"])
 
 	todo := &model.Todo{}
 	if err := json.NewDecoder(r.Body).Decode(&todo); err != nil {
@@ -102,7 +105,7 @@ func (th *todoHandler) PutTodo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	a, err := th.todoUseCase.PutTodo(ctx, vars["id"], todo)
+	a, err := th.todoUseCase.PutTodo(ctx, vars["userId"], vars["id"], todo)
 	if err != nil {
 		if errors.Is(err, usecase.ErrNoAffected) {
 			log.Println(err)
@@ -127,10 +130,10 @@ func (th *todoHandler) PutTodo(w http.ResponseWriter, r *http.Request) {
 
 func (th *todoHandler) DeleteTodo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	log.Printf("id: %v\n", vars["id"])
+	log.Printf("user_id: %v, id: %v\n", vars["userId"], vars["id"])
 
 	ctx := r.Context()
-	a, err := th.todoUseCase.DeleteTodo(ctx, vars["id"])
+	a, err := th.todoUseCase.DeleteTodo(ctx, vars["userId"], vars["id"])
 	if err != nil {
 		if errors.Is(err, usecase.ErrNotFound) {
 			log.Println(err)
@@ -154,8 +157,11 @@ func (th *todoHandler) DeleteTodo(w http.ResponseWriter, r *http.Request) {
 }
 
 func (th *todoHandler) ListTodos(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	log.Printf("user_id: %v\n", vars["userId"])
+
 	ctx := r.Context()
-	t, err := th.todoUseCase.ListTodos(ctx)
+	t, err := th.todoUseCase.ListTodos(ctx, vars["userId"])
 	if err != nil {
 		if errors.Is(err, usecase.ErrNotFound) {
 			log.Println(err)

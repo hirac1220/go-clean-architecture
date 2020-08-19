@@ -19,17 +19,17 @@ func (tp *todoPersistence) Ping() error {
 }
 
 // Post Todo
-func (tp *todoPersistence) CreateTodo(ctx context.Context, todo *model.Todo) (int64, error) {
+func (tp *todoPersistence) CreateTodo(ctx context.Context, uid int, todo *model.Todo) (int64, error) {
 	stmt, err := tp.db.Prepare(
 		`INSERT INTO todos
-		 (deadline, todo)
-		 VALUES (?, ?);`,
+		 (user_id, deadline, todo)
+		 VALUES (?, ?, ?);`,
 	)
 	if err != nil {
 		return 0, err
 	}
 	defer stmt.Close()
-	res, err := stmt.Exec(todo.Deadline, todo.Todo)
+	res, err := stmt.Exec(uid, todo.Deadline, todo.Todo)
 	if err != nil {
 		return 0, err
 	}
@@ -40,16 +40,17 @@ func (tp *todoPersistence) CreateTodo(ctx context.Context, todo *model.Todo) (in
 }
 
 // Get Todo
-func (tp *todoPersistence) GetTodoById(ctx context.Context, id int) (*model.Todo, error) {
+func (tp *todoPersistence) GetTodoById(ctx context.Context, uid, id int) (*model.Todo, error) {
 	row := tp.db.QueryRowContext(ctx,
 		`SELECT * 
 		 FROM todos
- 		 WHERE id = ?;`,
+ 		 WHERE user_id = ? AND id = ?;`,
+		uid,
 		id,
 	)
 
 	var todo = &model.Todo{}
-	if err := row.Scan(&todo.Id, &todo.Deadline, &todo.Todo); err != nil {
+	if err := row.Scan(&todo.Id, &todo.UserId, &todo.Deadline, &todo.Todo); err != nil {
 		log.Println(err)
 		return nil, err
 	}
@@ -58,17 +59,17 @@ func (tp *todoPersistence) GetTodoById(ctx context.Context, id int) (*model.Todo
 }
 
 // Put Todo
-func (tp *todoPersistence) PutTodoById(ctx context.Context, id int, todo *model.Todo) (int64, error) {
+func (tp *todoPersistence) PutTodoById(ctx context.Context, uid, id int, todo *model.Todo) (int64, error) {
 	stmt, err := tp.db.Prepare(
 		`UPDATE todos 
-		 SET deadline = ?, todo = ? 
-		 WHERE id = ?;`,
+		 SET user_id = ?, deadline = ?, todo = ? 
+		 WHERE user_id = ? AND id = ?;`,
 	)
 	if err != nil {
 		return 0, err
 	}
 	defer stmt.Close()
-	res, err := stmt.Exec(todo.Deadline, todo.Todo, id)
+	res, err := stmt.Exec(uid, todo.Deadline, todo.Todo, uid, id)
 	if err != nil {
 		return 0, err
 	}
@@ -79,15 +80,15 @@ func (tp *todoPersistence) PutTodoById(ctx context.Context, id int, todo *model.
 }
 
 // Delete Todo
-func (tp *todoPersistence) DeleteTodoById(ctx context.Context, id int) (int64, error) {
+func (tp *todoPersistence) DeleteTodoById(ctx context.Context, uid, id int) (int64, error) {
 	stmt, err := tp.db.Prepare(
-		`DELETE FROM todos WHERE id = ?;`,
+		`DELETE FROM todos WHERE user_id = ? AND id = ?;`,
 	)
 	if err != nil {
 		return 0, err
 	}
 	defer stmt.Close()
-	res, err := stmt.Exec(id)
+	res, err := stmt.Exec(uid, id)
 	if err != nil {
 		return 0, err
 	}
@@ -98,10 +99,13 @@ func (tp *todoPersistence) DeleteTodoById(ctx context.Context, id int) (int64, e
 }
 
 // List Todo
-func (tp *todoPersistence) ListTodos(ctx context.Context) ([]model.Todo, error) {
+func (tp *todoPersistence) ListTodos(ctx context.Context, uid int) ([]model.Todo, error) {
 	rows, err := tp.db.QueryContext(ctx,
-		`SELECT * 
-		 FROM todos;`,
+		`SELECT t.id, t.user_id, t.deadline, t.todo
+		 FROM todos t
+		 JOIN users u ON t.user_id = u.id 
+		 WHERE t.user_id = ?;`,
+		uid,
 	)
 	if err != nil {
 		return nil, err
@@ -110,7 +114,7 @@ func (tp *todoPersistence) ListTodos(ctx context.Context) ([]model.Todo, error) 
 	list := []model.Todo{}
 	for rows.Next() {
 		var todo = &model.Todo{}
-		if err := rows.Scan(&todo.Id, &todo.Deadline, &todo.Todo); err == nil {
+		if err := rows.Scan(&todo.Id, &todo.UserId, &todo.Deadline, &todo.Todo); err == nil {
 			list = append(list, *todo)
 		}
 	}

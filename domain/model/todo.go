@@ -6,6 +6,7 @@ import (
 
 type Todo struct {
 	Id       int       `json:"id"`
+	UserId   int       `json:"user_id"`
 	Deadline time.Time `json:"deadline"`
 	Todo     string    `json:"todo"`
 }

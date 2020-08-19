@@ -9,10 +9,10 @@ import (
 
 type TodoRepository interface {
 	Close()
-	CreateTodo(context.Context, *model.Todo) (int64, error)
-	GetTodoById(context.Context, int) (*model.Todo, error)
-	PutTodoById(context.Context, int, *model.Todo) (int64, error)
-	DeleteTodoById(context.Context, int) (int64, error)
-	ListTodos(context.Context) ([]model.Todo, error)
+	CreateTodo(context.Context, int, *model.Todo) (int64, error)
+	GetTodoById(context.Context, int, int) (*model.Todo, error)
+	PutTodoById(context.Context, int, int, *model.Todo) (int64, error)
+	DeleteTodoById(context.Context, int, int) (int64, error)
+	ListTodos(context.Context, int) ([]model.Todo, error)
 	GetNow() time.Time
 }
