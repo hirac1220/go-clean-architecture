@@ -9,6 +9,7 @@ import (
 
 type TodoRepository interface {
 	Close()
+	CheckUserId(context.Context, int) (int64, error)
 	CreateTodo(context.Context, int, *model.Todo) (int64, error)
 	GetTodoById(context.Context, int, int) (*model.Todo, error)
 	PutTodoById(context.Context, int, int, *model.Todo) (int64, error)

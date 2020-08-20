@@ -47,6 +47,21 @@ func (mr *MockTodoRepositoryMockRecorder) Close() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockTodoRepository)(nil).Close))
 }
 
+// CheckUserId mocks base method
+func (m *MockTodoRepository) CheckUserId(arg0 context.Context, arg1 int) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CheckUserId", arg0, arg1)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CheckUserId indicates an expected call of CheckUserId
+func (mr *MockTodoRepositoryMockRecorder) CheckUserId(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckUserId", reflect.TypeOf((*MockTodoRepository)(nil).CheckUserId), arg0, arg1)
+}
+
 // CreateTodo mocks base method
 func (m *MockTodoRepository) CreateTodo(arg0 context.Context, arg1 int, arg2 *model.Todo) (int64, error) {
 	m.ctrl.T.Helper()

@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/hirac1220/go-clean-architecture/domain/model"
@@ -17,6 +18,7 @@ var (
 )
 
 type TodoUsecase interface {
+	CheckUser(context.Context, string) (int, error)
 	PostTodo(context.Context, string, *model.Todo) (*model.Todo, error)
 	GetTodo(context.Context, string, string) (*model.Todo, error)
 	PutTodo(context.Context, string, string, *model.Todo) (*model.Affected, error)
@@ -32,6 +34,19 @@ func NewTodoUseCase(tr repository.TodoRepository) TodoUsecase {
 	return &todoUseCase{
 		todoRepository: tr,
 	}
+}
+
+func (tu *todoUseCase) CheckUser(ctx context.Context, user_id string) (int, error) {
+	uid, _ := strconv.Atoi(user_id)
+	var err error
+	log.Println(uid)
+	id, err := tu.todoRepository.CheckUserId(ctx, uid)
+	if err == sql.ErrNoRows {
+		return 0, fmt.Errorf("error: %w", ErrNotFound)
+	} else if err != nil {
+		return 0, fmt.Errorf("error: %w", err)
+	}
+	return int(id), nil
 }
 
 func (tu *todoUseCase) PostTodo(ctx context.Context, user_id string, todo *model.Todo) (*model.Todo, error) {

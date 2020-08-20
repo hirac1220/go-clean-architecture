@@ -13,9 +13,18 @@ import (
 var dt time.Time
 var id int64
 
-func TestCreateTodo(t *testing.T) {
+func TestCheckUserId(t *testing.T) {
 	ctx := context.Background()
 	persistence.SetConfig()
+	tp, _ := persistence.NewTodoPersistence()
+
+	uid := 1
+	actual, _ := tp.CheckUserId(ctx, uid)
+	expected := int64(1)
+	assert.Equal(t, expected, actual)
+}
+func TestCreateTodo(t *testing.T) {
+	ctx := context.Background()
 	tp, _ := persistence.NewTodoPersistence()
 
 	uid := 1

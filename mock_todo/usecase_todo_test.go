@@ -11,6 +11,25 @@ import (
 	"github.com/hirac1220/go-clean-architecture/usecase"
 )
 
+func TestCheckUser(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	var expected int64
+	var err error
+
+	ctx := context.Background()
+
+	mockSample := mock.NewMockTodoRepository(ctrl)
+	mockSample.EXPECT().CheckUserId(ctx, 1).Return(expected, err)
+
+	uc := usecase.NewTodoUseCase(mockSample)
+	result, err := uc.CheckUser(ctx, "1")
+
+	if !reflect.DeepEqual(result, int(expected)) {
+		t.Errorf("Actual PostTodo() is not same as expected")
+	}
+}
 func TestPostTodo(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()

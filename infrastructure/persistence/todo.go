@@ -18,6 +18,23 @@ func (tp *todoPersistence) Ping() error {
 	return tp.db.Ping()
 }
 
+func (tp *todoPersistence) CheckUserId(ctx context.Context, uid int) (int64, error) {
+	row := tp.db.QueryRowContext(ctx,
+		`SELECT id
+		 FROM users
+ 		 WHERE id = ?;`,
+		uid,
+	)
+
+	var id int64
+	if err := row.Scan(&id); err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	log.Printf("user_id: %v", id)
+	return id, nil
+}
+
 // Post Todo
 func (tp *todoPersistence) CreateTodo(ctx context.Context, uid int, todo *model.Todo) (int64, error) {
 	stmt, err := tp.db.Prepare(

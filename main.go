@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"log"
 	"net/http"
 	"time"
@@ -17,6 +18,8 @@ import (
 
 type Config struct {
 }
+
+var tu usecase.TodoUsecase
 
 func main() {
 	var cfg Config
@@ -35,7 +38,7 @@ func main() {
 	})
 	defer tp.Close()
 
-	tu := usecase.NewTodoUseCase(tp)
+	tu = usecase.NewTodoUseCase(tp)
 	th := handler.NewTodoHandler(tu)
 
 	// Routing
@@ -60,6 +63,22 @@ func main() {
 
 func Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		next.ServeHTTP(w, r)
+		vars := mux.Vars(r)
+		log.Printf("user_id: %v\n", vars["userId"])
+		ctx := r.Context()
+		id, err := tu.CheckUser(ctx, vars["userId"])
+		if err == nil {
+			log.Println("user_id:%d is match", id)
+			next.ServeHTTP(w, r)
+		} else {
+			if errors.Is(err, usecase.ErrNotFound) {
+				log.Println(err)
+				http.Error(w, "user is not exist", http.StatusNotFound)
+				return
+			}
+			log.Println(err)
+			http.Error(w, "", http.StatusInternalServerError)
+			return
+		}
 	})
 }
